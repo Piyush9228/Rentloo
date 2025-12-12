@@ -1,0 +1,7 @@
+{
+  "name": "Rentloo Rental Marketplace",
+  "description": "A peer-to-peer rental platform allowing users to borrow items instead of buying them. Features AI-powered search recommendations and a simulated payment flow.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}

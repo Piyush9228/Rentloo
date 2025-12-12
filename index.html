@@ -1,0 +1,223 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Rentloo - Borrow instead of buying</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+      }
+      /* Hide scrollbar for horizontal scrolling areas */
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+
+      /* 3D Utilities */
+      .perspective-1000 {
+        perspective: 1000px;
+      }
+      .perspective-500 {
+        perspective: 500px;
+      }
+      .transform-style-3d {
+        transform-style: preserve-3d;
+      }
+      .backface-hidden {
+        backface-visibility: hidden;
+      }
+
+      /* Floating Animation */
+      @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-15px); }
+      }
+      .animate-float {
+        animation: float 6s ease-in-out infinite;
+      }
+      .animate-float-delayed {
+        animation: float 7s ease-in-out 2s infinite;
+      }
+      .animate-float-fast {
+        animation: float 4s ease-in-out 1s infinite;
+      }
+
+      /* 3D Card Hover Effect */
+      .card-3d-wrapper {
+        perspective: 1000px;
+      }
+      .card-3d {
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        transform-style: preserve-3d;
+      }
+      .card-3d:hover {
+        transform: translateY(-10px) rotateX(2deg) rotateY(2deg);
+        box-shadow: 20px 20px 60px rgba(0,0,0,0.1), -20px -20px 60px rgba(255,255,255,0.5);
+        z-index: 10;
+      }
+      
+      /* Feature Item 3D Pop */
+      .feature-3d {
+        transition: transform 0.3s ease;
+      }
+      .feature-3d:hover {
+        transform: translateZ(20px) scale(1.05);
+      }
+      .feature-icon-spin:hover {
+        animation: spin-slow 3s linear infinite;
+      }
+      @keyframes spin-slow {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+
+      /* Text Reveal 3D */
+      .reveal-text-3d {
+        opacity: 0;
+        animation: reveal3d 1s cubic-bezier(0.2, 0, 0.2, 1) forwards;
+        transform-origin: bottom;
+      }
+      .reveal-delay-1 { animation-delay: 0.1s; }
+      .reveal-delay-2 { animation-delay: 0.3s; }
+      .reveal-delay-3 { animation-delay: 0.5s; }
+      
+      @keyframes reveal3d {
+        from {
+          opacity: 0;
+          transform: translateY(50px) rotateX(-20deg) scale(0.9);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) rotateX(0) scale(1);
+        }
+      }
+
+      /* Slow Zoom Background */
+      @keyframes slow-zoom {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+        100% { transform: scale(1); }
+      }
+      .bg-slow-zoom {
+        animation: slow-zoom 20s ease-in-out infinite;
+      }
+
+      /* Entrance Animation */
+      @keyframes slideUpFade {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .animate-slide-up {
+        animation: slideUpFade 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        opacity: 0; /* Ensure hidden before animation starts */
+      }
+
+      /* --- NEW 3D Background Effects --- */
+      .bg-3d-space {
+        background-color: #f8fafc;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .perspective-grid {
+        position: absolute;
+        width: 200%;
+        height: 200%;
+        left: -50%;
+        top: -50%;
+        background-image: 
+          linear-gradient(to right, rgba(128, 90, 213, 0.07) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(128, 90, 213, 0.07) 1px, transparent 1px);
+        background-size: 80px 80px;
+        transform-style: preserve-3d;
+        transform: perspective(500px) rotateX(60deg) translateY(0) translateZ(-100px);
+        animation: grid-flow 30s linear infinite;
+        transform-origin: center center;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      @keyframes grid-flow {
+        0% {
+          transform: perspective(500px) rotateX(60deg) translateY(0) translateZ(-100px);
+        }
+        100% {
+          transform: perspective(500px) rotateX(60deg) translateY(80px) translateZ(-100px);
+        }
+      }
+
+      .floating-shape {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(80px);
+        z-index: 0;
+        opacity: 0.6;
+        animation: shape-float 20s ease-in-out infinite alternate;
+        pointer-events: none;
+      }
+
+      .shape-1 {
+        width: 400px;
+        height: 400px;
+        background: rgba(128, 90, 213, 0.15); /* Purple tint */
+        top: -10%;
+        left: -10%;
+        animation-delay: 0s;
+      }
+
+      .shape-2 {
+        width: 500px;
+        height: 500px;
+        background: rgba(90, 213, 180, 0.15); /* Teal tint */
+        bottom: -10%;
+        right: -10%;
+        animation-delay: -5s;
+      }
+
+      .shape-3 {
+        width: 300px;
+        height: 300px;
+        background: rgba(236, 72, 153, 0.1); /* Pink tint */
+        top: 40%;
+        left: 40%;
+        animation-delay: -10s;
+      }
+
+      @keyframes shape-float {
+        0% { transform: translate3d(0, 0, 0) scale(1); }
+        100% { transform: translate3d(50px, -50px, 100px) scale(1.1); }
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.555.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "firebase/app": "https://esm.sh/firebase@10.13.0/app",
+    "firebase/firestore": "https://esm.sh/firebase@10.13.0/firestore",
+    "firebase/": "https://esm.sh/firebase@^12.6.0/"
+  }
+}
+</script>
+</head>
+  <body class="bg-gray-50 text-gray-900 overflow-x-hidden">
+    <div id="root"></div>
+  </body>
+</html>
